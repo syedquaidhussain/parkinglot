@@ -3,7 +3,7 @@
 
 #include "User.h"
 #include <iostream>
-
+// /ncsiknccn
 class Customer : public User {
 public:
     Customer(string id, string name) : User(id, name) {}
