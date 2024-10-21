@@ -2,13 +2,14 @@
 #define CASHPAYMENT_H
 
 #include "Payment.h"
-#include <iostream>
 
 using namespace std;
 class CashPayment : public Payment {
 public:
-    void processPayment(double amount) override {
-        cout << "Processing cash payment of $" << amount << endl;
+    bool processPayment(double amount) override {
+        cout << "Processing cash payment of $" << amount << "\n";
+        // Assuming all cash payments are successful for now
+        return true;
     }
 };
 

@@ -1,15 +1,24 @@
-#ifndef PARKING_ATTENDANT_H
-#define PARKING_ATTENDANT_H
+#ifndef PARKINGATTENDANT_H
+#define PARKINGATTENDANT_H
 
-#include "User.h"
-#include <iostream>
+#include <string>
+using namespace std;
 
-class ParkingAttendant : public User {
+class ParkingAttendant {
+private:
+    string attendantID;
+    string name;
+
 public:
-    ParkingAttendant(string id, string name) : User(id, name) {}
+    ParkingAttendant(const string &id, const string &attendantName) 
+        : attendantID(id), name(attendantName) {}
 
-    void displayInfo() override {
-        cout << "Parking Attendant: " << name << " (ID: " << id << ")" << endl;
+    string getName() const {
+        return name;
+    }
+
+    string getID() const {
+        return attendantID;
     }
 };
 

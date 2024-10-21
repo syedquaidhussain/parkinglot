@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include "Admin.h"
 #include "Customer.h"
@@ -5,36 +6,57 @@
 #include "ParkingLot.h"
 #include "CreditCardPayment.h"
 #include "CashPayment.h"
-#include "Ticket.h"
+#include "ELectricParkingSpot.h"
+#include "EntrancePanel.h"
+#include "ExitPanel.h"
+#include "DisplayBoard.h"
 
+
+// #include <iostream>
+// #include "Admin.h"
+// #include "Customer.h"
+// #include "ParkingAttendant.h"
+// #include "ParkingLot.h"
+// #include "CreditCardPayment.h"
+// #include "CashPayment.h"
+// #include "Ticket.h"
+
+
+using namespace std;
 int main() {
-    // Creating users
-    Admin admin1("A001", "AdminOne", "admin123");
-    Customer customer1("C001", "CustomerOne");
-    ParkingAttendant attendant1("P001", "AttendantOne");
 
-    // Creating parking lot and floors
-    ParkingLot lot("Lot1");
-    ParkingFloor floor1("F001");
+    // Create parking lot
+    ParkingLot lot("Lot1", 100);
 
-    // Adding spots to the floor
-    floor1.addSpot(ParkingSpot("S001", "Compact"));
-    floor1.addSpot(ParkingSpot("S002", "Large"));
-
-    // Authorizing admin and adding a floor
-    lot.authorizeAdmin(&admin1, "admin123");  // Successful authorization
+    // Create floors and add them to the lot
+    ParkingFloor floor1("Floor1");
+    ParkingFloor floor2("Floor2");
     lot.addFloor(floor1);
+    lot.addFloor(floor2);
 
-    // Display available spots
-    lot.displayAvailableSpots();
+    // Create electric spot and add it to floor1
+    ElectricParkingSpot electricSpot("E1", 10.0);
+    floor1.addSpot(electricSpot);
 
-    // Creating ticket and processing payment
-    Ticket ticket1("T001", 3.5, 4);  // Parking for 4 hours
-    ticket1.displayTicket();
+    // Create entrance and exit panels
+    EntrancePanel entrance("Entrance1");
+    ExitPanel exit("Exit1");
 
-    Payment *payment = new CreditCardPayment();
-    payment->processPayment(ticket1.getTotalAmount());
+    // Create customer and their vehicle
+    Customer customer("C001", "CustomerOne");
+    Vehicle vehicle("123-ABC", "Car");
 
-    delete payment;  // Clean up
+    // Customer enters and gets a ticket
+    double parkingRate = 4.0; // Initial rate
+    Ticket *ticket = entrance.issueTicket(lot, vehicle, parkingRate);
+
+    // Customer charges their electric vehicle
+    CashPayment cashPayment;
+    electricSpot.chargeVehicle(&cashPayment, 2.5); // Charging for 2.5 hours
+
+    // Customer exits and pays for parking
+    CreditCardPayment cardPayment;
+    exit.processExit(lot, ticket, &cardPayment);
+
     return 0;
 }
